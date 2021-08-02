@@ -30,19 +30,6 @@ for v,vid in  enumerate(video_list):
   e = thumos_test_anno[thumos_test_anno['video']==vid]['end'].values
   e = [int(round(ee*1.5625)) for ee in e]
 
-  # ################################# Filter GT used to train ##################################
-  # s_filter = []
-  # e_filter = []
-
-  # for ii, p in enumerate(s):
-  #   if abs(p-e[ii])>=args.startend_interval and abs(p-e[max(0,ii-1)])>=args.startend_interval:
-  #     s_filter.append(p)
-
-  # for jj, q in enumerate(e):
-  #   if abs(q-s[jj])>=args.startend_interval and abs(q-s[min(len(s)-1,jj+1)])>=args.startend_interval:
-  #     e_filter.append(q) 
-
-  # #################################################################################################
   starting_gt[v] = s
   ending_gt[v] = e
 
