@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-This TEM code is largely based on BSN.
+This TEM code is based on BSN.
 """
 
 import tensorflow as tf
@@ -153,7 +153,6 @@ class Config(object):
     the input should be feature mat of training and testing
     """
     def __init__(self):
-        #common information
         self.learning_rates=[0.001]*5 + [0.0001]*15
         self.training_epochs = len(self.learning_rates)
         self.n_inputs = 400
@@ -239,5 +238,5 @@ if __name__ == "__main__":
 
         for key in info_keys:
             val_info[key].append(np.mean(mini_info[key]))
-        #plotInfo(axs,val_info,'b')
+
         
