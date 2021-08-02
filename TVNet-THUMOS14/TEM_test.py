@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-This TEM code is largely based on BSN.
+This TEM code is based on BSN.
 """
 
 import tensorflow as tf
