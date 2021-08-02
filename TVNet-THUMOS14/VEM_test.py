@@ -5,12 +5,8 @@ import tensorflow as tf
 import time
 import random
 import scipy.io as sio
-#from video_dataset_attention import Dataset
 from load_dataset import Dataset
-
 import options_voting as options
-# from classificationMAP import getClassificationMAP as cmAP
-# from detectionMAP import getDetectionMAP as dmAP
 from matplotlib import pyplot
 import matplotlib.pyplot as plt
 
@@ -109,13 +105,12 @@ def test(dataset, args, itr):
             columns=["start"]
             tmp_df=pd.DataFrame(acummu_idxs_sum_norm,columns=columns)
             tmp_df.to_csv(save_path+'/'+str(video_name)+".csv",index=False)
-            #tmp_df.to_csv('./outputs/VEM_Test/L'+str(args.window_length)+'_'+str(args.voting_type)+'/'+str(video_name)+".csv",index=False)
 
         else:
             columns=["end"]
             tmp_df=pd.DataFrame(acummu_idxs_sum_norm,columns=columns)
             tmp_df.to_csv(save_path+'/'+str(video_name)+".csv",index=False)
-            #tmp_df.to_csv('./outputs/VEM_Test/L'+str(args.window_length)+'_'+str(args.voting_type)+'/'+str(video_name)+".csv",index=False)                
+              
     print ('VEM test finished')
 if __name__ == "__main__":
    args = options.parser.parse_args()
