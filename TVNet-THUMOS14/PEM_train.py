@@ -1,8 +1,7 @@
 """
-This TEM code is largely based on BMN.
+This TEM code is based on BMN.
 
 """
-
 
 import os
 import torch
@@ -17,7 +16,6 @@ from lib.PEM_dataset import VideoDataSet
 from lib.PEM_loss_function import bmn_loss_func, get_mask
 
 
-#######################################################
 def train_BMN(data_loader, model, optimizer, epoch, bm_mask):
     model.train()
     epoch_pemreg_loss = 0
