@@ -30,7 +30,7 @@ You can download the feature on THUMOS14 at here [GooogleDrive](https://drive.go
 Place it into a folder named thumos_features inside ./data.
 
 You also need to download the feature for PEM (from BMN) at [GooogleDrive](https://drive.google.com/drive/folders/10PGPMJ9JaTZ18uakPgl58nu7yuKo8M_k?usp=sharing).
-Place it into a folder named Thumos_feature_hdf5 inside ./data/thumos_features.
+Please put it into a folder named Thumos_feature_hdf5 inside ./data/thumos_features.
 
 If everything goes well, you can get the folder architecture of ./data like this:
 
@@ -42,8 +42,8 @@ If everything goes well, you can get the folder architecture of ./data like this
     		└── features_test.npy
 
 ### Feature for ActivityNet 1.3
-You can download the feature on ActivityNet 1.3 at here [GooogleDrive]().
-Place it into a folder named activitynet_feature_cuhk inside ./data.
+You can download the feature on ActivityNet 1.3 at here [GoogleCloud](https://drive.google.com/file/d/1ISemndlSDS2FtqQOKL0t3Cjj9yk2yznF/view?usp=sharing).
+Please put csv_mean_100 directory into ./data/activitynet_feature_cuhk/
 If everything goes well, you can get the folder architecture of ./data like this:
 
     data                        
@@ -143,5 +143,6 @@ python post_postprocess.py
 
 This implementation borrows from:
 
-BSN
-BMN
+[BSN](https://github.com/wzmsltw/BSN-boundary-sensitive-network)
+[BMN](https://github.com/JJBOY/BMN-Boundary-Matching-Network)
+[G-TAD](https://github.com/frostinassiky/gtad)
