@@ -22,6 +22,6 @@ python VEM_test.py --voting_type end --window_length 5 --window_stride 2
 
 #Pytorch for PEM from BMN
 python PEM_train.py
-python PEM_test.py
+python proposal_generation.py
 python post_postprocess.py
 
