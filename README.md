@@ -32,28 +32,54 @@ Place it into a folder named thumos_features inside ./data.
 You also need to download the feature for PEM (from BMN) at [GooogleDrive](https://drive.google.com/drive/folders/10PGPMJ9JaTZ18uakPgl58nu7yuKo8M_k?usp=sharing).
 Place it into a folder named Thumos_feature_hdf5 inside ./data/thumos_features.
 
-
 If everything goes well, you can get the folder architecture of ./data like this:
 
     data                        
     └── thumos_features                    
-    	├── Thumos_feature_dim_400              
-    	├── Thumos_feature_hdf5               
-    	├── features_train.npy 
-    	└── features_test.npy
+    		├── Thumos_feature_dim_400              
+    		├── Thumos_feature_hdf5               
+    		├── features_train.npy 
+    		└── features_test.npy
 
 ### Feature for ActivityNet 1.3
+You can download the feature on ActivityNet 1.3 at here [GooogleDrive]().
+Place it into a folder named activitynet_feature_cuhk inside ./data.
+If everything goes well, you can get the folder architecture of ./data like this:
 
+    data                        
+    └── activitynet_feature_cuhk                    
+    		    └── csv_mean_100
 
 ## Run all steps
-
+### Run all steps on THUMOS14
+```
+cd TVNet-THUMOS14
+```
 Run the following script with all steps on THUMOS14:
 ```
 bash do_all.sh
 ```
 
-## Run steps separately  
+Note: If you use BlueCrystal 4, you can directly run the following script without any dependencies setup.
+```
+bash do_all_BC4.sh
+```
 
+### Run all steps on ActivityNet 1.3
+```
+cd TVNet-ANET
+bash do_all.sh  or bash do_all_BC4.sh
+```
+
+
+## Run steps separately  
+```
+cd TVNet-THUMOS14
+```
+or
+```
+cd TVNet-ANET
+```
 #### 1. Temporal evaluation module
 
 ```
