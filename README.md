@@ -37,10 +37,10 @@ If everything goes well, you can get the folder architecture of ./data like this
 
     data                        
     └── thumos_features                    
-    		├── Thumos_feature_dim_400              
-    		├── Thumos_feature_hdf5               
-    		├── features_train.npy 
-    		└── features_test.npy
+    	├── Thumos_feature_dim_400              
+    	├── Thumos_feature_hdf5               
+    	├── features_train.npy 
+    	└── features_test.npy
 
 ### Feature for ActivityNet 1.3
 
