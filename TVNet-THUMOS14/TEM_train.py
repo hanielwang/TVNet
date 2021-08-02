@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-This TEM code is based on BSN.
+This TEM code is largely based on BSN.
 """
 
 import tensorflow as tf
 import numpy as np
 import pandas as pd
 import math
+import os
 import load_dataset as TEM_load_data
 import matplotlib.pyplot as plt
 
@@ -153,6 +154,7 @@ class Config(object):
     the input should be feature mat of training and testing
     """
     def __init__(self):
+        #common information
         self.learning_rates=[0.001]*5 + [0.0001]*15
         self.training_epochs = len(self.learning_rates)
         self.n_inputs = 400
@@ -221,7 +223,11 @@ if __name__ == "__main__":
         for key in info_keys:
             train_info[key].append(np.mean(mini_info[key]))
         #plotInfo(axs,train_info,'r')
-        model_saver.save(sess,"models/TEM/tem_model_epoch",global_step=epoch)
+
+        save_path = './models/TEM'
+        if not os.path.exists(save_path):
+            os.makedirs(save_path)
+        model_saver.save(sess,save_path +"/tem_model_epoch",global_step=epoch)
         
         batch_window_list=TEM_load_data.getBatchList(len(testDataDict["gt_bbox"]),config.batch_size,shuffle=False)
         mini_info={"loss_action":[],"loss_start":[],"loss_end":[],"l2":[]}
@@ -238,5 +244,5 @@ if __name__ == "__main__":
 
         for key in info_keys:
             val_info[key].append(np.mean(mini_info[key]))
-
+        #plotInfo(axs,val_info,'b')
         
