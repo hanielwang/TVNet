@@ -36,6 +36,7 @@ def test(dataset, args, itr):
     outputs, state = tf.nn.dynamic_rnn(lstm_cell, net, initial_state=h0)
 
     outputs = outputs[:,:,-1]
+    outputs = tf.squeeze(outputs)
 
     # Initialize everything
     init = tf.global_variables_initializer()
