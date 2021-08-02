@@ -1,7 +1,3 @@
-"""
-This TEM code is based on BMN.
-
-"""
 
 import os
 import math
@@ -17,15 +13,11 @@ from lib.PEM_dataset import VideoDataSet
 if __name__ == '__main__':
     opt = opts.parse_opt()
     opt = vars(opt)
-
-
     if not os.path.exists("./outputs/candidate_proposals"):
         os.makedirs("./outputs/candidate_proposals")
-
     model = BMN(opt)
     model = torch.nn.DataParallel(model, device_ids=[0]).cuda()
-    checkpoint = torch.load("./models/PEM/BMN_best_d=80.pth.tar")#torch.load("./checkpoint/BMN_checkpoint.pth.tar")#torch.load(opt["checkpoint_path"] + "/BMN_best_d=80.pth.tar")#/BMN_best.pth.tar")
-
+    checkpoint = torch.load("./models/PEM/BMN_best_d=80.pth.tar")
     model.load_state_dict(checkpoint['state_dict'])
     model.eval()
 
@@ -37,13 +29,11 @@ if __name__ == '__main__':
             data = json.load(json_file)
             return data
 
-
     with torch.no_grad():
         for idx, input_data in test_loader:
             video_name = test_loader.dataset.video_list[idx[0]]
             offset = min(test_loader.dataset.data['indices'][idx[0]])
             tem_score = pd.read_csv("./outputs/TEM_Test/" + video_name + ".csv")
-            
             tdf_start01=pd.read_csv("./outputs/VEM_Test/L10_start/"+video_name+".csv")
             tdf_end01=pd.read_csv("./outputs/VEM_Test/L10_end/"+video_name+".csv")
             tdf_start02=pd.read_csv("./outputs/VEM_Test/L5_start/"+video_name+".csv")
@@ -53,10 +43,6 @@ if __name__ == '__main__':
             tem_start_scores = tem_score.start.values[:]
             tem_end_scores = tem_score.end.values[:]
             len_tem = len(tem_score.end.values[:])
-
-
-            
-
             video_name = video_name+'_{}'.format(math.floor(offset/160))
 
             tdf_start = (tdf_start01 +tdf_start02)
@@ -121,7 +107,7 @@ if __name__ == '__main__':
             start_list_final = [int(m - (offset/opt['skip_videoframes'])) for m in start_list_final]
             end_list_final = [int(m - (offset/opt['skip_videoframes'])) for m in end_list_final]
 
-            start_scores = tdf_start.start.values[:]/2#TVNet_props.xmin_score.values[:]#[n_now]#start[0].detach().cpu().numpy()
+            start_scores = tdf_start.start.values[:]/2
             end_scores = tdf_end.end.values[:]/2
 
             ######################################## generate proposals and add PEM scores ########################################
@@ -132,7 +118,7 @@ if __name__ == '__main__':
                     start_index = idx
                     end_index = jdx
                     if start_index < end_index and  end_index<opt["temporal_scale"] :
-                        xmin = start_index * opt['skip_videoframes'] + offset  # map [0,99] to frames
+                        xmin = start_index * opt['skip_videoframes'] + offset
                         xmax = end_index * opt['skip_videoframes'] + offset
                         s_feat_idx = min(int(xmin/opt['feat_ratio']),int(len_vid-1))
                         e_feat_idx = min(int(xmax/opt['feat_ratio']),int(len_vid-1))

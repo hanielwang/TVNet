@@ -119,15 +119,14 @@ def _gen_detection_video(video_name, video_cls, thu_label_id, opt, num_prop=100,
     return {video_name:proposal_list}
 
 def gen_detection_multicore(opt):
-    # get video list
     thumos_test_anno = pd.read_csv("./data/thumos_annotations/test_Annotation.csv")
     video_list = thumos_test_anno.video.unique()
-    thu_label_id = np.sort(thumos_test_anno.type_idx.unique())[1:] - 1  # get thumos class id
-    thu_video_id = np.array([int(i[-4:]) - 1 for i in video_list])  # -1 is to match python index
+    thu_label_id = np.sort(thumos_test_anno.type_idx.unique())[1:] - 1  
+    thu_video_id = np.array([int(i[-4:]) - 1 for i in video_list])  
 
     # load video level classification
     cls_data = np.load("./data/uNet_test.npy")
-    cls_data = cls_data[thu_video_id,:][:, thu_label_id]  # order by video list, output 213x20
+    cls_data = cls_data[thu_video_id,:][:, thu_label_id]
 
     # detection_result
     thumos_gt = pd.read_csv("./data/thumos_annotations/thumos14_test_groundtruth.csv")
@@ -154,7 +153,6 @@ def gen_detection_multicore(opt):
 if __name__ == '__main__':
     opt = opts.parse_opt()
     opt = vars(opt)
-    #opt["output"] = opt["output"]
     if not os.path.exists('./outputs/'):
         os.makedirs('./outputs/')
     opt_file = open('./outputs/' + "/opts.json", "w")
