@@ -15,6 +15,9 @@ import h5py
 
 args = options.parser.parse_args()
 
+
+####################### load data for TEM ###################
+
 def iou_with_anchors(anchors_min,anchors_max,box_min,box_max):
     """Compute jaccard score between a box and the anchors.
     """
@@ -23,7 +26,6 @@ def iou_with_anchors(anchors_min,anchors_max,box_min,box_max):
     int_xmax = np.minimum(anchors_max, box_max)
     inter_len = np.maximum(int_xmax - int_xmin, 0.)
     union_len = len_anchors - inter_len +box_max-box_min
-    #print inter_len,union_len
     jaccard = np.divide(inter_len, union_len)
     return jaccard
     
@@ -38,7 +40,6 @@ def ioa_with_anchors(anchors_min,anchors_max,box_min,box_max):
     return scores
 
 def getBatchList(numWindow,batch_size,shuffle=True):
-    ## notice that there are some video appear twice in last two batch ##
     window_list=range(numWindow)
     batch_start_list=[i*batch_size for i in range(len(window_list)/batch_size)]
     batch_start_list.append(len(window_list)-batch_size)
@@ -67,13 +68,10 @@ def getBatchData(window_list,data_dict):
     batch_anchor_xmin=np.array(batch_anchor_xmin)
     batch_anchor_xmax=np.array(batch_anchor_xmax)
     batch_anchor_feature=np.array(batch_anchor_feature)
-    #batch_anchor_feature=np.reshape(batch_anchor_feature,[len(video_list),100,-1])
     return batch_index,batch_bbox,batch_anchor_xmin,batch_anchor_xmax,batch_anchor_feature
 
 
 def getFullData(dataSet):
-    ii=0
-    #dataSet="Test"
     annoDf=pd.read_csv("./data/thumos_annotations/"+dataSet+"_Annotation.csv")
     videoNameList=list(set(annoDf.video.values[:]))
     input_spatial_path="./data/thumos_features/Thumos_feature_dim_400/rgb/"
@@ -85,15 +83,11 @@ def getFullData(dataSet):
     list_gt_bbox=[]
     
     for videoName in videoNameList:
-        #print ii
-        ii+=1
         video_annoDf=annoDf[annoDf.video==videoName] 
         gt_xmins=video_annoDf.startFrame.values[:]
         gt_xmaxs=video_annoDf.endFrame.values[:]
-        
         spatialDf=pd.read_csv(input_spatial_path+videoName+".csv")
         temporalDf=pd.read_csv(input_temporal_path+videoName+".csv")
-        
         numSnippet=min(len(spatialDf),len(temporalDf))
         frameList=[3+5*i for i in range(numSnippet)]
         df_data=np.concatenate((spatialDf.values[:numSnippet,:],temporalDf.values[:numSnippet,:]),axis=1)
@@ -102,7 +96,6 @@ def getFullData(dataSet):
         stride=window_size/2
         n_window=(numSnippet+stride-window_size)/stride
         windows_start=[i*stride for i in range(n_window)]
-        #print np.shape(df_data)
         if numSnippet<window_size:
             windows_start=[0]
             tmp_data=np.zeros((window_size-numSnippet,400))
@@ -129,11 +122,7 @@ def getFullData(dataSet):
                 list_anchor_xmins.append(tmp_anchor_xmins)
                 list_anchor_xmaxs.append(tmp_anchor_xmaxs)
                 list_data.append(tmp_data)
-        # print('------------------------------------')
-        # print gt_xmins
-        # print gt_xmaxs
-        # print tmp_gt_bbox
-        # print df_data.shape
+
     dataDict={"gt_bbox":list_gt_bbox,"anchor_xmin":list_anchor_xmins,"anchor_xmax":list_anchor_xmaxs,"feature":list_data}
     return dataDict
 
@@ -176,7 +165,7 @@ def getVideoData(videoName):
     return list_snippets,list_data,df_snippet
 
 
-
+################################### load data for VEM ################################
 class Dataset():
     def __init__(self, args):
 
@@ -203,8 +192,6 @@ class Dataset():
             video_name = self.test_list[self.currenttestidx]
             attention_df = pd.read_csv("./outputs/VEM_Train/TEM_action/"+video_name+".csv")
             attention = attention_df.action.values[:]
-
-            #print (video_name)
 
             if self.currenttestidx == len(self.test_list)-1:
                 done = True; self.currenttestidx = 0
