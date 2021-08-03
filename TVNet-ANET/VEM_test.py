@@ -41,6 +41,7 @@ def test(dataset, args, itr):
     net=tf.layers.conv1d(inputs=net,filters=256,kernel_size=3,strides=1,name = "conv1d3",padding='same',activation=None,reuse=tf.AUTO_REUSE)
     net=tf.nn.tanh(net)
 
+# # #################################################### one direction LSTM #############################################
     lstm_cell = tf.nn.rnn_cell.BasicLSTMCell(num_units=1,forget_bias=1,activation=tf.nn.tanh, reuse=tf.AUTO_REUSE)
 
     h0 = lstm_cell.zero_state(1, np.float32)
@@ -51,7 +52,7 @@ def test(dataset, args, itr):
 
     outputs = tf.squeeze(outputs)
 
-#################################################################################
+########################################## Model #######################################
 
     # Initialize everything
     init = tf.global_variables_initializer()
