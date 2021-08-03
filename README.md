@@ -154,7 +154,7 @@ python post_postprocess.py
 
 This implementation borrows from:
 
-[BSN](https://github.com/wzmsltw/BSN-boundary-sensitive-network): BSN-boundary-sensitive-network
+[BSN](https://github.com/wzmsltw/BSN-boundary-sensitive-network): BSN-Boundary-Sensitive-Network
 
 [BMN](https://github.com/JJBOY/BMN-Boundary-Matching-Network): BMN-Boundary-Matching-Network
 
