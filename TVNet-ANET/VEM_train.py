@@ -86,7 +86,7 @@ def main():
 
         if i % 200== 0:
             print('Iteration: %d, Loss: %.5f' %(i, cost))
-            saver.save(sess, './models/VEM/'+str(args.voting_type)+'/L_'+str(args.window_length)+'_S_'+str(args.window_stride)+'_at/model', global_step=i)
+            saver.save(sess, save_path+'/model', global_step=i)
 
 if __name__ == "__main__":
     print ('VEM train Start...')

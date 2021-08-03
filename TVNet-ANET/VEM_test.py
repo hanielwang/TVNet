@@ -62,7 +62,7 @@ def test(dataset, args, itr):
     sess.run(init)
     saver = tf.train.Saver()
  
-    saver.restore(sess,tf.train.latest_checkpoint('./models/VEM/'+str(args.voting_type)+'/L_'+str(args.window_length)+'_S_'+str(args.window_stride)+'_at/'))
+    saver.restore(sess,tf.train.latest_checkpoint('./models/VEM/'+str(args.voting_type)+'/L'+str(args.window_length)+'S'+str(args.window_stride)+'/'))
 
     # Test
     element_logit_stack = []

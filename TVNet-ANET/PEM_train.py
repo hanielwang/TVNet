@@ -8,6 +8,7 @@ import torch.nn.parallel
 import torch.optim as optim
 import tensorflow as tf
 import numpy as np
+import math
 import lib.PEM_opts as opts
 from lib.PEM_models import BMN
 import pandas as pd
@@ -33,17 +34,16 @@ def train_BMN(data_loader, model, optimizer, epoch, bm_mask):
         confidence_map, start, end = model(input_data)
         loss = bmn_loss_func(confidence_map, start, end, label_confidence, label_start, label_end, bm_mask.cuda())
         optimizer.zero_grad()
-        if math.isnan(loss[2]) == True:
-            print('This batch does not has any positive sample, please run again')
-        if math.isnan(loss[2]) == False:
-            loss[0].backward()
-            optimizer.step()
+        loss[0].backward()
+        optimizer.step()
 
-            epoch_pemreg_loss += loss[2].cpu().detach().numpy()
-            epoch_pemclr_loss += loss[3].cpu().detach().numpy()
-            epoch_tem_loss += loss[1].cpu().detach().numpy()
-            epoch_loss += loss[0].cpu().detach().numpy()
+        epoch_pemreg_loss += loss[2].cpu().detach().numpy()
+        epoch_pemclr_loss += loss[3].cpu().detach().numpy()
+        epoch_tem_loss += loss[1].cpu().detach().numpy()
+        epoch_loss += loss[0].cpu().detach().numpy()
 
+    if math.isnan(epoch_pemreg_loss / (n_iter + 1)) == True:
+        print('This batch does not has any positive sample, please run again')
     print(
         "BMN training loss(epoch %d): tem_loss: %.03f, pem class_loss: %.03f, pem reg_loss: %.03f, total_loss: %.03f" % (
             epoch, epoch_tem_loss / (n_iter + 1),
@@ -108,6 +108,16 @@ def BMN_Train(opt):
         scheduler.step()
         train_BMN(train_loader, model, optimizer, epoch, bm_mask)
         test_BMN(test_loader, model, epoch, bm_mask)
+
+
+# def main(opt):
+#     if opt["mode"] == "train":
+#         BMN_Train(opt)
+#     elif opt["mode"] == "inference":
+#         if not os.path.exists("outputs/candidate_proposals"):
+#             os.makedirs("outputs/candidate_proposals")
+#         BMN_inference(opt)
+
 
 if __name__ == '__main__':
     opt = opts.parse_opt()
