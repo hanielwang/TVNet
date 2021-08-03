@@ -158,4 +158,4 @@ This implementation borrows from:
 
 [BMN](https://github.com/JJBOY/BMN-Boundary-Matching-Network): BMN-Boundary-Matching-Network
 
-[G-TAD](https://github.com/frostinassiky/gtad): G-TAD: Sub-Graph Localization for Temporal Action Detection
+[G-TAD](https://github.com/frostinassiky/gtad): Sub-Graph Localization for Temporal Action Detection
