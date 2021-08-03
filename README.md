@@ -30,9 +30,9 @@ You can download the feature on THUMOS14 at here [GooogleDrive](https://drive.go
 Place it into a folder named thumos_features inside ./data.
 
 You also need to download the feature for PEM (from BMN) at [GooogleDrive](https://drive.google.com/drive/folders/10PGPMJ9JaTZ18uakPgl58nu7yuKo8M_k?usp=sharing).
-Please put it into a folder named Thumos_feature_hdf5 inside ./data/thumos_features.
+Please put it into a folder named Thumos_feature_hdf5 inside ./TVNet-THUMOS14/data/thumos_features.
 
-If everything goes well, you can get the folder architecture of ./data like this:
+If everything goes well, you can get the folder architecture of ./TVNet-THUMOS14/data like this:
 
     data                        
     └── thumos_features                    
@@ -43,8 +43,8 @@ If everything goes well, you can get the folder architecture of ./data like this
 
 ### Feature for ActivityNet 1.3
 You can download the feature on ActivityNet 1.3 at here [GoogleCloud](https://drive.google.com/file/d/1ISemndlSDS2FtqQOKL0t3Cjj9yk2yznF/view?usp=sharing).
-Please put csv_mean_100 directory into ./data/activitynet_feature_cuhk/
-If everything goes well, you can get the folder architecture of ./data like this:
+Please put csv_mean_100 directory into ./TVNet-ANET/data/activitynet_feature_cuhk/
+If everything goes well, you can get the folder architecture of ./TVNet-ANET/data like this:
 
     data                        
     └── activitynet_feature_cuhk                    
@@ -68,17 +68,14 @@ bash do_all_BC4.sh
 ### Run all steps on ActivityNet 1.3
 ```
 cd TVNet-ANET
-bash do_all.sh  or bash do_all_BC4.sh
+bash do_all.sh  or  bash do_all_BC4.sh
 ```
 
 
-## Run steps separately  
+## Run steps separately
+Take TVNet-THUMOS14 as an example:
 ```
 cd TVNet-THUMOS14
-```
-or
-```
-cd TVNet-ANET
 ```
 #### 1. Temporal evaluation module
 
