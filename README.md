@@ -131,7 +131,7 @@ python post_postprocess.py
 ### THUMOS14
 
 
-| tIoU|mAP@IoU (%) | 
+| tIoU|mAP@IoU| 
 |------------------|-----|
 | 0.3 | 0.5724681814413137|
 |0.4 | 0.5060844218403346|
@@ -142,7 +142,7 @@ python post_postprocess.py
 
 ### ActivityNet 1.3
 
-| tIoU  |mAP@IoU (%) | 
+| tIoU  |mAP@IoU| 
 |--------|-----|
 | Average | 0.3460396513933088|
 |0.5 | 0.5135151163296395|
