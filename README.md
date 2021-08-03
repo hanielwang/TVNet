@@ -42,7 +42,8 @@ If everything goes well, you can get the folder architecture of ./TVNet-THUMOS14
 
 ### Feature for ActivityNet 1.3
 You can download the feature on ActivityNet 1.3 at here [GoogleCloud](https://drive.google.com/file/d/1ISemndlSDS2FtqQOKL0t3Cjj9yk2yznF/view?usp=sharing).
-Please put csv_mean_100 directory into ./TVNet-ANET/data/activitynet_feature_cuhk/
+Please put csv_mean_100 directory into ./TVNet-ANET/data/activitynet_feature_cuhk/.
+
 If everything goes well, you can get the folder architecture of ./TVNet-ANET/data like this:
 
     data                        
