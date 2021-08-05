@@ -15,7 +15,7 @@ def load_json(file):
 
 class VideoDataSet(data.Dataset):
     def __init__(self, opt, subset="train"):
-        self.temporal_scale = opt["temporal_scale"]  # 100
+        self.temporal_scale = opt["temporal_scale"] 
         self.temporal_gap = 1. / self.temporal_scale
         self.subset = subset
         self.mode = opt["mode"]
@@ -37,6 +37,7 @@ class VideoDataSet(data.Dataset):
             if self.subset in video_subset:
                 self.video_dict[video_name] = video_info
         self.video_list = list(self.video_dict.keys())
+
         print("%s subset video numbers: %d" % (self.subset, len(self.video_list)))
 
     def __getitem__(self, index):
@@ -82,7 +83,7 @@ class VideoDataSet(data.Dataset):
         gt_xmins = gt_bbox[:, 0]
         gt_xmaxs = gt_bbox[:, 1]
         gt_lens = gt_xmaxs - gt_xmins
-        gt_len_small = 3 * self.temporal_gap  # np.maximum(self.temporal_gap, self.boundary_ratio * gt_lens)
+        gt_len_small = 3 * self.temporal_gap 
         gt_start_bboxs = np.stack((gt_xmins - gt_len_small / 2, gt_xmins + gt_len_small / 2), axis=1)
         gt_end_bboxs = np.stack((gt_xmaxs - gt_len_small / 2, gt_xmaxs + gt_len_small / 2), axis=1)
         #####################################################################################################

@@ -41,11 +41,6 @@ def TEM_loss(anchors_action,anchors_start,anchors_end,
 def TEM_Train(X_feature,Y_action,Y_start,Y_end,LR,config):
     """ Model and loss function of temporal evaluation module
     """ 
-    # net=tf.layers.conv1d(inputs=X_feature,filters=512,kernel_size=3,strides=1,padding='same',activation=tf.nn.relu)
-    # net=tf.layers.conv1d(inputs=net,filters=512,kernel_size=3,strides=1,padding='same',activation=tf.nn.relu)
-    # net=0.1*tf.layers.conv1d(inputs=net,filters=3,kernel_size=1,strides=1,padding='same')
-    # net=tf.nn.sigmoid(net)
-
 
     net=tf.layers.conv1d(inputs=X_feature,filters=512,kernel_size=9,dilation_rate=1,strides=1,padding='same',activation=tf.nn.relu)
     net=tf.layers.conv1d(inputs=net,filters=512,kernel_size=9,dilation_rate=1,strides=1,padding='same',activation=tf.nn.relu)
@@ -144,8 +139,6 @@ def main():
         for key in info_keys:
             val_info[key].append(np.mean(mini_info[key]))
 
-        # print "Epoch-%d Train Loss: Action - %.02f, Start - %.02f, End - %.02f" %(epoch,train_info["loss_action"][-1],train_info["loss_start"][-1],train_info["loss_end"][-1])
-        # print "Epoch-%d Val   Loss: Action - %.02f, Start - %.02f, End - %.02f" %(epoch,val_info["loss_action"][-1],val_info["loss_start"][-1],val_info["loss_end"][-1])
         print "Epoch-%d Train Loss: Action - %.02f, - %.02f, Start - %.02f,  - %.02f, End - %.02f - %.02f," %(epoch,train_info["loss_action"][-1],val_info["loss_action"][-1], train_info["loss_start"][-1],val_info["loss_start"][-1], train_info["loss_end"][-1], val_info["loss_end"][-1])
         
         """ save model """ 

@@ -65,6 +65,7 @@ class BMN(nn.Module):
             nn.Sigmoid()
         )
 
+
     def forward(self, x):
         base_feature = self.x_1d_b(x)
         start = self.x_1d_s(base_feature).squeeze(1)

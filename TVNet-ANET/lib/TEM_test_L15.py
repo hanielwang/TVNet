@@ -11,7 +11,7 @@ import load_dataset as TEM_load_data
 def TEM_inference(X_feature,config):
 
     net=tf.layers.conv1d(inputs=X_feature,filters=256,kernel_size=3,strides=1,padding='same',activation=tf.nn.leaky_relu)
-    net=tf.layers.conv1d(inputs=net,filters=128,kernel_size=3,strides=1,padding='same',activation=tf.nn.leaky_relu)
+    net=tf.layers.conv1d(inputs=net,filters=256,kernel_size=3,strides=1,padding='same',activation=tf.nn.leaky_relu)
 
     net1=tf.layers.conv1d(inputs=net,filters=256,kernel_size=3,strides=1,padding='same',activation=tf.nn.leaky_relu)
     net1=tf.layers.conv1d(inputs=net1,filters=256,kernel_size=3,strides=1,padding='same',activation=tf.nn.leaky_relu)

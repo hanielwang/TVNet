@@ -8,11 +8,7 @@ sys.path.append("..")
 import load_dataset as TEM_load_data
 
 def TEM_inference(X_feature,config):
-    # net=tf.layers.conv1d(inputs=X_feature,filters=512,kernel_size=3,strides=1,padding='same',activation=tf.nn.relu)
-    # net=tf.layers.conv1d(inputs=net,filters=512,kernel_size=3,strides=1,padding='same',activation=tf.nn.relu)
-    # net=0.1*tf.layers.conv1d(inputs=net,filters=3,kernel_size=1,strides=1,padding='same')
-    # net=tf.nn.sigmoid(net)
-    
+
     net=tf.layers.conv1d(inputs=X_feature,filters=512,kernel_size=9,dilation_rate=1,strides=1,padding='same',activation=tf.nn.relu)
     net=tf.layers.conv1d(inputs=net,filters=512,kernel_size=9,dilation_rate=1,strides=1,padding='same',activation=tf.nn.relu)
 
@@ -61,9 +57,8 @@ def main():
     sess=tf.InteractiveSession(config=tf_config)
     tf.global_variables_initializer().run()  
     model_saver.restore(sess,"./models/TEM/2/tem_model_best")  
-    #model_saver.restore(sess,"models/TEM_size9/tem_model_checkpoint")  
     
-    video_dict, video_list = TEM_load_data.getFullData("val")#TEM_load_data.load_json("./data/activitynet_annotations/anet_anno_action.json")
+    video_dict, video_list = TEM_load_data.getFullData("val")
 
     batch_result_action=[]
     batch_result_action_sig=[]
