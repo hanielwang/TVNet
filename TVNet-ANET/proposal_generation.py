@@ -40,31 +40,25 @@ def BMN_inference(opt):
             input_data = input_data.cuda()
             confidence_map, start, end = model(input_data)
 
-            ###########################################################################################################
-            # tdf_end1=pd.read_csv("/mnt/storage/scratch/dm19329/dataset/BSN-output/TEM_results_voting_end_BSN_S15_iter700/"+video_name+".csv")
-            # tdf_start1=pd.read_csv("/mnt/storage/scratch/dm19329/dataset/BSN-output/TEM_results_voting_start_BSN_reg/"+video_name+".csv")
-            # tdf_end2=pd.read_csv("/mnt/storage/scratch/dm19329/dataset/BSN-output/TEM_results_voting_end_BSN_lw_5/"+video_name+".csv")
-            # tdf_start2=pd.read_csv("/mnt/storage/scratch/dm19329/dataset/BSN-output/TEM_results_voting_start_BSN_lw_5/"+video_name+".csv")
+
             tdf_end1=pd.read_csv("./outputs/VEM_end_L_15_at_based_size9_0728/"+video_name+".csv")
             tdf_start1=pd.read_csv("./outputs/VEM_start_L_15_at_based_size9_0728/"+video_name+".csv")
             tdf_end2=pd.read_csv("./outputs/VEM_end_L_5_at_based_size9_0728/"+video_name+".csv")
             tdf_start2=pd.read_csv("./outputs/VEM_start_L_5_at_based_size9_0728/"+video_name+".csv")
 
-            #tdf_end1=pd.read_csv("/mnt/storage/scratch/dm19329/dataset/BSN-output/TEM_results_CNN_end/"+str(i)+".csv")
-            #tdf_start1=pd.read_csv("/mnt/storage/scratch/dm19329/dataset/BSN-output/TEM_results_CNN_start/"+str(i)+".csv")
             i = i+1
-            tdf_start = tdf_start1 + tdf_start2# + tdf_start3#np.sqrt(tdf_start1* tdf_start2)# + tdf_start3
-            tdf_end = tdf_end1 + tdf_end2# + tdf_end3#np.sqrt(tdf_end1* tdf_end2)# + tdf_end3
+            tdf_start = tdf_start1 + tdf_start2
+            tdf_end = tdf_end1 + tdf_end2
 
             tdf= pd.read_csv("./outputs/TEM_Test/"+video_name+".csv")
 
-            start_scores =tdf_start.start.values[:]#  + 1.6*tdf.start.values[:]#* attention_vid# + 1.5*tdf.start.values[:]#start_scores2
-            end_scores = tdf_end.end.values[:]# + 1.6*tdf.end.values[:]#* attention_vid# + 1.5*tdf.end.values[:]#end_scores2
+            start_scores =tdf_start.start.values[:]
+            end_scores = tdf_end.end.values[:]
 
             clr_confidence = (confidence_map[0][1]).detach().cpu().numpy()
             reg_confidence = (confidence_map[0][0]).detach().cpu().numpy()
 
-            ######################################### No select proposlas ############################################
+
             start_list = []
             end_list = []
             new_props = []
@@ -91,7 +85,7 @@ def BMN_inference(opt):
                 if end_bins[j]==1:
                     end_list.append(j)
 
-            start_scores =tdf_start.start.values[:]/2#  + 1.6*tdf.start.values[:]#* attention_vid# + 1.5*tdf.start.values[:]#start_scores2
+            start_scores =tdf_start.start.values[:]/2
             end_scores = tdf_end.end.values[:]/2
 
             for s in start_list:
