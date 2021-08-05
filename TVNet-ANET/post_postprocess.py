@@ -4,6 +4,7 @@ import pandas as pd
 import json
 import os
 from joblib import Parallel, delayed
+#import opts_linshi as opts
 import lib.PEM_opts as opts
 
 def load_json(file):
@@ -48,6 +49,12 @@ def Soft_NMS(df, nms_threshold=1e-5, num_prop=200):
     rend = []
     rscore = []
 
+    # # frost: I use a trick here, remove the detection
+    # # which is longer than 300
+    # for idx in range(0, len(tscore)):
+    #     if tend[idx] - tstart[idx] >= 300:
+    #         tscore[idx] = 0
+
     while len(tscore) > 1 and len(rscore) < num_prop and max(tscore)>0:
         max_index = tscore.index(max(tscore))
         for idx in range(0, len(tscore)):
@@ -84,25 +91,30 @@ def _gen_detection_video(video_name, video_score, video_cls, video_info, opt, nu
     video_score[np.argmax(video_score)] = -1
     score_2 = np.max(video_score)
     class_2 = video_cls[np.argmax(video_score)]
+
     df = pd.read_csv("./outputs/candidate_proposals/v_" + video_name + ".csv")
+    # if video_name == '--1DO2V4K74':
+    #     print (df)
     df['score'] = df.score.values[:]#df.clr_score.values[:] * df.reg_socre.values[:]
     
     if len(df) > 1:
+        #df = Soft_NMS(df, 0.52)
         df = Soft_NMS(df, opt["nms_thr"])
+
     df = df.sort_values(by="score", ascending=False)
 
     video_duration = video_info["duration_second"]
 
     proposal_list = []
 
-    for j in range(min(100, len(df))):
+    for j in range(min(200, len(df))):
         tmp_proposal = {}
         tmp_proposal["label"] = str(class_1)
         tmp_proposal["score"] = float(df.score.values[j] * score_1)
         tmp_proposal["segment"] = [max(0, df.xmin.values[j]) * video_duration,
                                    min(1, df.xmax.values[j]) * video_duration]
         proposal_list.append(tmp_proposal)
-    for j in range(min(100, len(df))):
+    for j in range(min(200, len(df))):
         tmp_proposal = {}
         tmp_proposal["label"] = str(class_2)
         tmp_proposal["score"] = float(df.score.values[j] * score_2)
@@ -110,6 +122,10 @@ def _gen_detection_video(video_name, video_score, video_cls, video_info, opt, nu
                                    min(1, df.xmax.values[j]) * video_duration]
         proposal_list.append(tmp_proposal)
 
+    #print('The video {} is finished'.format(video_name))
+    #print (tmp_proposal)
+    # if video_name == '--1DO2V4K74':
+    #     print (proposal_list)
     return {video_name: proposal_list}
 
 def gen_detection_multicore(opt):
@@ -117,20 +133,22 @@ def gen_detection_multicore(opt):
     infer_dict = get_infer_dict(opt)
 
     # load class name and video level classification
-    cls_data = load_json("./data/cuhk_val_simp_share.json")
+    cls_data = load_json("./data/cuhk_val_simp_share.json")    # cls_data_score, cls_data_action = cls_data["results"], cls_data["class"]
     cls_data_score, cls_data_cls = {}, {}
     for idx, vid in enumerate(infer_dict.keys()):
         vid = vid[2:]
         cls_data_score[vid] = np.array(cls_data["results"][vid])
-        cls_data_cls[vid] = cls_data["class"] 
+        cls_data_cls[vid] = cls_data["class"] #[np.argmax(cls_data_score[vid])] # find the max class
+
+
 
     parallel = Parallel(n_jobs=15, prefer="processes")
     detection = parallel(delayed(_gen_detection_video)(vid, cls_data_score[vid], video_cls, infer_dict['v_'+vid], opt)
                         for vid, video_cls in cls_data_cls.items())
     detection_dict = {}
-
+    #print (detection[0])
     [detection_dict.update(d) for d in detection]
-
+    #detection_dict = dict(detection)
     output_dict = {"version": "ANET v1.3, GTAD", "results": detection_dict, "external_data": {}}
 
     with open('./outputs/detection_result.json', "w") as out:

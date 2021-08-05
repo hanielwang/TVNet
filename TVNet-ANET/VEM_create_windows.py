@@ -5,10 +5,18 @@ import tensorflow as tf
 import time
 import random
 import scipy.io as sio
+#from video_dataset_attention import Dataset
 import options_voting as options
 import math
 import load_dataset as load_data
+#from video_dataset_attention import get_segment_gt as get_segment_gt
 args = options.parser.parse_args()
+
+
+#train_data_dict, video_list=video_load_data_anet_BSN_CNN.getFullData("val")
+#print type(train_data_dict)  #key:gt_start,gt_action,gt_end,feature
+#video_list_idx = range(0,len(video_list))
+#batch_label_action,batch_label_start,batch_label_end,batch_anchor_feature=video_load_data_anet_BSN_CNN.getBatchData(video_list_idx,train_data_dict)
 
 if os.path.exists('./outputs/VEM_Train/gt_start.npy'):
   print ('gt data already exists')
@@ -24,6 +32,7 @@ else:
   end_gt = train_data_dict['gt_end']
   attention_gt = train_data_dict['gt_action']
   features = train_data_dict['feature']
+  #print attention_gt.shape
 
   np.save('./outputs/VEM_Train/gt_start.npy',start_gt)
   np.save('./outputs/VEM_Train/gt_end.npy',end_gt)
@@ -84,6 +93,10 @@ def generate_windows(video_list, generating_gt, is_starting = True):
                               r_gt.append(r)
                               
                             r_gt_all_all.append(r_gt)
+
+
+
+    
 
     return feature_all_all,r_gt_all_all,attention_all_all
 

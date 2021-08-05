@@ -8,7 +8,6 @@ import torch.nn.parallel
 import torch.optim as optim
 import tensorflow as tf
 import numpy as np
-import math
 import lib.PEM_opts as opts
 from lib.PEM_models import BMN
 import pandas as pd
@@ -42,8 +41,6 @@ def train_BMN(data_loader, model, optimizer, epoch, bm_mask):
         epoch_tem_loss += loss[1].cpu().detach().numpy()
         epoch_loss += loss[0].cpu().detach().numpy()
 
-    if math.isnan(epoch_pemreg_loss / (n_iter + 1)) == True:
-        print('This batch does not has any positive sample, please run again')
     print(
         "BMN training loss(epoch %d): tem_loss: %.03f, pem class_loss: %.03f, pem reg_loss: %.03f, total_loss: %.03f" % (
             epoch, epoch_tem_loss / (n_iter + 1),

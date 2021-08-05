@@ -4,8 +4,11 @@ import tensorflow as tf
 import time
 import random
 import scipy.io as sio
+#from video_dataset4_single_category import Dataset
 from load_dataset import Dataset
+#import utils
 import options_voting as options
+#from test_slide_windows_LSTM_anet_linshi import test 
 import os
 
 args = options.parser.parse_args()
@@ -37,30 +40,40 @@ def main():
 
     idxx = tf.placeholder(tf.float32)
 
-    ####################################################################
     # Model
 
     net=tf.layers.conv1d(inputs=feature_seq,filters=256,kernel_size=3,strides=1,name = "conv1d1",padding='same',activation=None)
     net=tf.nn.tanh(net)
+    net= tf.layers.batch_normalization(net)
+    net= tf.nn.dropout(net, 0.7)
+    #net=tf.layers.average_pooling1d(net,1,1,padding='same')
 
     net=tf.layers.conv1d(inputs=net,filters=128,kernel_size=3,strides=1,name = "conv1d2",padding='same',activation=None)
     net=tf.nn.tanh(net)
+    net= tf.layers.batch_normalization(net)
+    net= tf.nn.dropout(net, 0.7)
 
     net=tf.layers.conv1d(inputs=net,filters=256,kernel_size=3,strides=1,name = "conv1d3",padding='same',activation=None)
     net=tf.nn.tanh(net)
+    net= tf.layers.batch_normalization(net)
 
     lstm_cell = tf.nn.rnn_cell.BasicLSTMCell(num_units=1,forget_bias=1,activation=tf.nn.tanh)
 
     h0 = lstm_cell.zero_state(batch_size, np.float32)
-
+  
     outputs0, state = tf.nn.dynamic_rnn(lstm_cell, net, initial_state=h0)
 
     outputs = outputs0[:,:,-1]
+
  
-    # Loss
+        # Loss
+############################################Loss with attention###############
+
     gt_r_tanh = tf.nn.tanh(gt_r)
     loss = tf.reduce_mean(tf.square(outputs-gt_r_tanh))
+    tf.summary.scalar('Loss', loss)
     apply_gradient_op = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(loss)
+
 
     # Initialize tensorflow graph
     init = tf.global_variables_initializer()
@@ -68,19 +81,21 @@ def main():
     config.gpu_options.allow_growth = True
     sess = tf.Session(config=config)
     sess.run(init)
+
     merged = tf.summary.merge_all()
     saver = tf.train.Saver(max_to_keep=200)
+
     dataset = Dataset(args)
+
     lr = [0.0001]*800+[0.00001]*201
 
-    #Start training
+        #Start training
 
     for i in range(0, len(lr)):
         # Train
-        batch_feature_seq, gt_rr, attention, idx= dataset.load_data_slide_window(batch_size_cls=args.batch_size)
-        attention_sig = attention
-        batch_feature_seq_sup = np.multiply(batch_feature_seq,np.expand_dims(attention_sig,2))
-        _, cost = sess.run([apply_gradient_op, loss], feed_dict={feature_seq:batch_feature_seq_sup, gt_r:gt_rr, learning_rate: lr[i], batch_size:args.batch_size})
+        batch_feature_seq, gt_rr, attention, idx= dataset.load_data_slide_window(batch_size=args.batch_size)
+        batch_feature_seq_sup = np.multiply(batch_feature_seq,np.expand_dims(attention,2))
+        _, cost, sumry = sess.run([apply_gradient_op, loss, merged], feed_dict={feature_seq:batch_feature_seq_sup, gt_r:gt_rr, learning_rate: lr[i], batch_size:args.batch_size})
 
 
         if i % 200== 0:
