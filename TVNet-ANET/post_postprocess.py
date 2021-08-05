@@ -49,12 +49,6 @@ def Soft_NMS(df, nms_threshold=1e-5, num_prop=200):
     rend = []
     rscore = []
 
-    # # frost: I use a trick here, remove the detection
-    # # which is longer than 300
-    # for idx in range(0, len(tscore)):
-    #     if tend[idx] - tstart[idx] >= 300:
-    #         tscore[idx] = 0
-
     while len(tscore) > 1 and len(rscore) < num_prop and max(tscore)>0:
         max_index = tscore.index(max(tscore))
         for idx in range(0, len(tscore)):
