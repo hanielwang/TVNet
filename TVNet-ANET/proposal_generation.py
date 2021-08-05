@@ -41,10 +41,10 @@ def BMN_inference(opt):
             confidence_map, start, end = model(input_data)
 
 
-            tdf_end1=pd.read_csv("./outputs/VEM_end_L_15_at_based_size9_0728/"+video_name+".csv")
-            tdf_start1=pd.read_csv("./outputs/VEM_start_L_15_at_based_size9_0728/"+video_name+".csv")
-            tdf_end2=pd.read_csv("./outputs/VEM_end_L_5_at_based_size9_0728/"+video_name+".csv")
-            tdf_start2=pd.read_csv("./outputs/VEM_start_L_5_at_based_size9_0728/"+video_name+".csv")
+            tdf_end1=pd.read_csv("./outputs/VEM_end_L_15/"+video_name+".csv")
+            tdf_start1=pd.read_csv("./outputs/VEM_start_L_15/"+video_name+".csv")
+            tdf_end2=pd.read_csv("./outputs/VEM_end_L_5/"+video_name+".csv")
+            tdf_start2=pd.read_csv("./outputs/VEM_start_L_5/"+video_name+".csv")
 
             i = i+1
             tdf_start = tdf_start1 + tdf_start2
