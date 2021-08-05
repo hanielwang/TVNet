@@ -28,7 +28,6 @@ def load_json(file):
     with open(file) as json_file:
         data = json.load(json_file)
         return data
-#gt_data= load_json("/mnt/storage/home/dm19329/deeplearning/wtalc-tensorflow/ActivityNet_gt_plot.json")
 
 def test(dataset, args, itr):
 
@@ -135,7 +134,7 @@ def test(dataset, args, itr):
 
         acummu_idxs_sum_norm = accumulate_all_windows(acummu_idxs, features_length,idx,1)
 
-        save_path = "./outputs/VEM_"+str(args.voting_type)+"_L_"+str(args.window_length)+"_at_based_size9_0728"
+        save_path = "./outputs/VEM_"+str(args.voting_type)+"_L_"+str(args.window_length)
         if not os.path.exists(save_path):
             os.makedirs(save_path)
 
