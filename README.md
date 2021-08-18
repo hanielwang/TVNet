@@ -167,7 +167,7 @@ PEM_train.py -- for the PEM module we used in our paper
 
 [G-TAD](https://github.com/frostinassiky/gtad): Sub-Graph Localization for Temporal Action Detection
 ```
-post_postprocess.py
+post_postprocess.py -- for the multicore process to generate detection
 ```
 Our main contribution is in: 
 ```
