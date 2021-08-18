@@ -13,7 +13,7 @@ def load_json(file):
     with open(file) as json_file:
         data = json.load(json_file)
         return data
-
+################################### load data for TEM #################################
 def getDatasetDict():
     """Load dataset file
     """
@@ -143,7 +143,6 @@ def getFullData_windows(dataSet):
         batch_anchor_xmin.append(list(tmp_anchor_xmin))    
         batch_anchor_xmax.append(list(tmp_anchor_xmax)) 
         batch_index.append(batch_index[-1]+len(video_labels))
-        ######################################################### Load feature for BSN ##########################################
         tmp_df=pd.read_csv("./data/activitynet_feature_cuhk/csv_mean_"+str(tscale)+"/"+video_name+".csv")
         batch_anchor_feature.append(tmp_df.values[:,:])
 
@@ -281,7 +280,7 @@ def getProposalDataTest(video_list,video_dict):
     batch_anchor_feature=np.reshape(batch_anchor_feature,[len(video_list),tscale,-1])
     return batch_anchor_xmin,batch_anchor_xmax,batch_anchor_feature
 
-
+################################### load data for VEM #################################
 class Dataset():
     def __init__(self, args):
 
@@ -289,7 +288,6 @@ class Dataset():
 
         self.val_data_dict, self.val_list = getFullData("val")
         self.val_features = self.val_data_dict['feature']
-
 
     def load_data_slide_window(self, batch_size = 0, is_training=True):
 
@@ -299,8 +297,6 @@ class Dataset():
             labels = []
             gtsegments = []
             idx = []
-
-            #################################################### BSN ########################################################
             features_window = np.load('./outputs/VEM_Train/features_window'+str(args.window_length)+'stride'+str(args.window_stride)+'_'+str(args.voting_type)+'.npy', allow_pickle=True)
             attention_window = np.load('./outputs/VEM_Train/attention_window'+str(args.window_length)+'stride'+str(args.window_stride)+'_'+str(args.voting_type)+'.npy', allow_pickle=True)
             r_gt_window  = np.load('./outputs/VEM_Train/r_window'+str(args.window_length)+'stride'+str(args.window_stride)+'_'+str(args.voting_type)+'.npy', allow_pickle=True)
@@ -341,8 +337,6 @@ class Dataset():
             labels = []
             gtsegments = []
             idx = []
-
-            #################################################### BSN ########################################################
             features_window = np.load('./outputs/VEM_Train/features_window'+str(args.window_length)+'stride'+str(args.window_stride)+'_'+str(args.voting_type)+'_val.npy', allow_pickle=True)
             attention_window = np.load('./outputs/VEM_Train/attention_window'+str(args.window_length)+'stride'+str(args.window_stride)+'_'+str(args.voting_type)+'_val.npy', allow_pickle=True)
             r_gt_window  = np.load('./outputs/VEM_Train/r_window'+str(args.window_length)+'stride'+str(args.window_stride)+'_'+str(args.voting_type)+'_val.npy', allow_pickle=True)
