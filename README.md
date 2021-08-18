@@ -33,7 +33,7 @@ Please put it into a folder named Thumos_feature_hdf5 inside ./TVNet-THUMOS14/da
 
 If everything goes well, you can get the folder architecture of ./TVNet-THUMOS14/data like this:
 
-    data                        
+    data                       
     └── thumos_features                    
     		├── Thumos_feature_dim_400              
     		├── Thumos_feature_hdf5               
@@ -154,8 +154,20 @@ python post_postprocess.py
 
 This implementation borrows from:
 
-[BSN](https://github.com/wzmsltw/BSN-boundary-sensitive-network): BSN-Boundary-Sensitive-Network
+###[BSN](https://github.com/wzmsltw/BSN-boundary-sensitive-network): BSN-Boundary-Sensitive-Network
+TEM_train/test.py -- for the TEM module we used in our paper
+load_dataset.py -- borrow the part which load data for TEM
 
-[BMN](https://github.com/JJBOY/BMN-Boundary-Matching-Network): BMN-Boundary-Matching-Network
+###[BMN](https://github.com/JJBOY/BMN-Boundary-Matching-Network): BMN-Boundary-Matching-Network
+PEM_train.py -- for the PEM module we used in our paper
 
-[G-TAD](https://github.com/frostinassiky/gtad): Sub-Graph Localization for Temporal Action Detection
+###[G-TAD](https://github.com/frostinassiky/gtad): Sub-Graph Localization for Temporal Action Detection
+post_postprocess.py
+
+###Our main contribution is in: 
+
+VEM_create_windows.py -- generate training annotations for Voting Evidence Module (VEM)
+
+VEM_train.py -- train Voting Evidence Module (VEM)
+
+VEM_test.py -- test Voting Evidence Module (VEM)
