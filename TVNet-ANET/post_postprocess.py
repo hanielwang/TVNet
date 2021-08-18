@@ -143,7 +143,7 @@ def gen_detection_multicore(opt):
     #print (detection[0])
     [detection_dict.update(d) for d in detection]
     #detection_dict = dict(detection)
-    output_dict = {"version": "ANET v1.3, GTAD", "results": detection_dict, "external_data": {}}
+    output_dict = {"version": "ANET v1.3, TVNET", "results": detection_dict, "external_data": {}}
 
     with open('./outputs/detection_result.json', "w") as out:
         json.dump(output_dict, out)
