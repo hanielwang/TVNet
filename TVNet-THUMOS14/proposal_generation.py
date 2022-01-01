@@ -28,12 +28,14 @@ if __name__ == '__main__':
         with open(file) as json_file:
             data = json.load(json_file)
             return data
+    ratio = load_json("./data/features_ratio_pro.json")
 
     with torch.no_grad():
         for idx, input_data in test_loader:
             video_name = test_loader.dataset.video_list[idx[0]]
             offset = min(test_loader.dataset.data['indices'][idx[0]])
             tem_score = pd.read_csv("./outputs/TEM_Test/" + video_name + ".csv")
+            ratio_vid = float(ratio[video_name][0])
             tdf_start01=pd.read_csv("./outputs/VEM_Test/L10_start/"+video_name+".csv")
             tdf_end01=pd.read_csv("./outputs/VEM_Test/L10_end/"+video_name+".csv")
             tdf_start02=pd.read_csv("./outputs/VEM_Test/L5_start/"+video_name+".csv")
@@ -88,8 +90,8 @@ if __name__ == '__main__':
                 if end_bins[j]==1:
                     end_list.append(j)
 
-            start_list_rescale = [int(opt['feat_ratio']*d/opt['skip_videoframes']) for d in start_list]
-            end_list_rescale = [int(opt['feat_ratio']*d/opt['skip_videoframes']) for d in end_list]
+            start_list_rescale = [int(ratio_vid*d/opt['skip_videoframes']) for d in start_list]
+            end_list_rescale = [int(ratio_vid*d/opt['skip_videoframes']) for d in end_list]
 
             n_now_s = []
             for n, value in enumerate(start_list_rescale):
@@ -120,8 +122,8 @@ if __name__ == '__main__':
                     if start_index < end_index and  end_index<opt["temporal_scale"] :
                         xmin = start_index * opt['skip_videoframes'] + offset
                         xmax = end_index * opt['skip_videoframes'] + offset
-                        s_feat_idx = min(int(xmin/opt['feat_ratio']),int(len_vid-1))
-                        e_feat_idx = min(int(xmax/opt['feat_ratio']),int(len_vid-1))
+                        s_feat_idx = min(int(xmin/ratio_vid),int(len_vid-1))
+                        e_feat_idx = min(int(xmax/ratio_vid),int(len_vid-1))
                         tem_s_idx = min(int(start_index + offset/opt['skip_videoframes']),len_tem-1)
                         tem_e_idx = min(int(end_index + offset/opt['skip_videoframes']),len_tem-1)
                         xmin_score = start_scores[s_feat_idx] + 0.6*tem_start_scores[tem_s_idx]
