@@ -6,6 +6,8 @@ This repo holds the codes of paper: "TVNet: Temporal Voting Network for Action L
 
 Temporal action localization is a vital task in video understranding. In this paper, we propose a Temporal Voting Network (TVNet) for action localization in untrimmed videos. This incorporates a novel Voting Evidence Module to locate temporal boundaries, more accurately, where temporal contextual evidence is accumulated to predict frame-level probabilities of start and end action boundaries.
 
+!(https://github.com/hanielwang/TVNet/blob/main/TVNet.JPG)
+
 
 ## Dependencies
 
